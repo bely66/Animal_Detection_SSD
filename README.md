@@ -1,6 +1,4 @@
-This is a **[PyTorch](https://pytorch.org) Tutorial to Object Detection**.
 
-This is the third in [a series of tutorials](https://github.com/sgrvinod/Deep-Tutorials-for-PyTorch) I'm writing about _implementing_ cool models on your own with the amazing PyTorch library.
 
 Basic knowledge of PyTorch, convolutional neural networks is assumed.
 
@@ -18,21 +16,21 @@ I'm using `PyTorch 0.4` in `Python 3.6`.
 
 # Contents
 
-[***Objective***](https://github.com/sgrvinod/a-PyTorch-Tutorial-to-Object-Detection#objective)
+[***Objective***](https://github.com/bely66/Animal_Detection_SSD#objective)
 
-[***Concepts***](https://github.com/sgrvinod/a-PyTorch-Tutorial-to-Object-Detection#concepts)
+[***Concepts***](https://github.com/bely66/Animal_Detection_SSD#concepts)
 
-[***Overview***](https://github.com/sgrvinod/a-PyTorch-Tutorial-to-Object-Detection#overview)
+[***Overview***](https://github.com/bely66/Animal_Detection_SSD#overview)
 
-[***Implementation***](https://github.com/sgrvinod/a-PyTorch-Tutorial-to-Object-Detection#implementation)
+[***Implementation***](https://github.com/bely66/Animal_Detection_SSD#implementation)
 
-[***Training***](https://github.com/sgrvinod/a-PyTorch-Tutorial-to-Object-Detection#training)
+[***Training***](https://github.com/bely66/Animal_Detection_SSD#training)
 
-[***Evaluation***](https://github.com/sgrvinod/a-PyTorch-Tutorial-to-Object-Detection#evaluation)
+[***Evaluation***](https://github.com/bely66/Animal_Detection_SSD#evaluation)
 
-[***Inference***](https://github.com/sgrvinod/a-PyTorch-Tutorial-to-Object-Detection#inference)
+[***Inference***](https://github.com/bely66/Animal_Detection_SSD#inference)
 
-[***Frequently Asked Questions***](https://github.com/sgrvinod/a-PyTorch-Tutorial-to-Object-Detection#faqs)
+[***Frequently Asked Questions***](https://github.com/bely66/Animal_Detection_SSD#faqs)
 
 # Objective
 
@@ -42,63 +40,7 @@ I'm using `PyTorch 0.4` in `Python 3.6`.
 <img src="./img/baseball.gif">
 </p>
 
-We will be implementing the [Single Shot Multibox Detector (SSD)](https://arxiv.org/abs/1512.02325), a popular, powerful, and especially nimble network for this task. The authors' original implementation can be found [here](https://github.com/weiliu89/caffe/tree/ssd).
 
-Here are some examples of object detection in images not seen during training –
-
----
-
-<p align="center">
-<img src="./img/000001.jpg">
-</p>
-
----
-
-<p align="center">
-<img src="./img/000022.jpg">
-</p>
-
----
-
-<p align="center">
-<img src="./img/000069.jpg">
-</p>
-
----
-
-<p align="center">
-<img src="./img/000082.jpg">
-</p>
-
----
-
-<p align="center">
-<img src="./img/000144.jpg">
-</p>
-
----
-
-<p align="center">
-<img src="./img/000139.jpg">
-</p>
-
----
-
-<p align="center">
-<img src="./img/000116.jpg">
-</p>
-
----
-
-<p align="center">
-<img src="./img/000098.jpg">
-</p>
-
----
-
-There are more examples at the [end of the tutorial](https://github.com/sgrvinod/a-PyTorch-Tutorial-to-Object-Detection#some-more-examples).
-
----
 
 # Concepts
 
@@ -118,7 +60,8 @@ There are more examples at the [end of the tutorial](https://github.com/sgrvinod
 
 # Overview
 
-In this section, I will present an overview of this model. If you're already familiar with it, you can skip straight to the [Implementation](https://github.com/sgrvinod/a-PyTorch-Tutorial-to-Object-Detection#implementation) section or the commented code.
+In this section, I will present an overview of this model. If you're already familiar with it, you can skip straight to the [Implementation]
+section or the commented code.
 
 As we proceed, you will notice that there's a fair bit of engineering that's resulted in the SSD's very specific structure and formulation. Don't worry if some aspects of it seem contrived or unspontaneous at first. Remember, it's built upon _years_ of (often empirical) research in this field.
 
@@ -595,16 +538,14 @@ The sections below briefly describe the implementation.
 
 They are meant to provide some context, but **details are best understood directly from the code**, which is quite heavily commented.
 
-### Dataset
 
-We will use Pascal Visual Object Classes (VOC) data from the years 2007 and 2012.
 
 #### Description
 
 This data contains images with twenty different types of objects.
 
 ```python
-{'aeroplane', 'bicycle', 'bird', 'boat', 'bottle', 'bus', 'car', 'cat', 'chair', 'cow', 'diningtable', 'dog', 'horse', 'motorbike', 'person', 'pottedplant', 'sheep', 'sofa', 'train', 'tvmonitor'}
+{'roedeer', 'waterdeer', 'wildpig'}
 ```
 
 Each image can contain one or more ground truth objects.
@@ -619,17 +560,8 @@ Each object is represented by –
 
 #### Download
 
-Specfically, you will need to download the following VOC datasets –
 
-- [2007 _trainval_](http://host.robots.ox.ac.uk/pascal/VOC/voc2007/VOCtrainval_06-Nov-2007.tar) (460MB)
 
-- [2012 _trainval_](http://host.robots.ox.ac.uk/pascal/VOC/voc2012/VOCtrainval_11-May-2012.tar) (2GB)
-
-- [2007 _test_](http://host.robots.ox.ac.uk/pascal/VOC/voc2007/VOCtest_06-Nov-2007.tar) (451MB)
-
-Consistent with the paper, the two _trainval_ datasets are to be used for training, while the VOC 2007 _test_ will serve as our test data.  
-
-Make sure you extract both the VOC 2007 _trainval_ and 2007 _test_ data to the same location, i.e. merge them.
 
 ### Inputs to model
 
@@ -674,7 +606,7 @@ As you know, our data is divided into _training_ and _test_ splits.
 
 #### Parse raw data
 
-See `create_data_lists()` in [`utils.py`](https://github.com/sgrvinod/a-PyTorch-Tutorial-to-Object-Detection/blob/master/utils.py).
+See `create_data_lists()` in [`utils.py`](https://github.com/bely66/Animal_Detection_SSD/blob/master/utils.py).
 
 This parses the data downloaded and saves the following files –
 
@@ -682,21 +614,21 @@ This parses the data downloaded and saves the following files –
 
 - A **JSON file for each split with a list of `I` dictionaries containing ground truth objects, i.e. bounding boxes in absolute boundary coordinates, their encoded labels, and perceived detection difficulties**. The `i`th dictionary in this list will contain the objects present in the `i`th image in the previous JSON file.
 
-- A **JSON file which contains the `label_map`**, the label-to-index dictionary with which the labels are encoded in the previous JSON file. This dictionary is also available in [`utils.py`](https://github.com/sgrvinod/a-PyTorch-Tutorial-to-Object-Detection/blob/master/utils.py) and directly importable.
+- A **JSON file which contains the `label_map`**, the label-to-index dictionary with which the labels are encoded in the previous JSON file. This dictionary is also available in [`utils.py`](https://github.com/bely66/Animal_Detection_SSD/blob/master/utils.py) and directly importable.
 
 #### PyTorch Dataset
 
-See `PascalVOCDataset` in [`datasets.py`](https://github.com/sgrvinod/a-PyTorch-Tutorial-to-Object-Detection/blob/master/datasets.py).
+See `PascalVOCDataset` in [`datasets.py`](https://github.com/bely66/Animal_Detection_SSD/blob/master/datasets.py).
 
 This is a subclass of PyTorch [`Dataset`](https://pytorch.org/docs/master/data.html#torch.utils.data.Dataset), used to **define our training and test datasets.** It needs a `__len__` method defined, which returns the size of the dataset, and a `__getitem__` method which returns the `i`th image, bounding boxes of the objects in this image, and labels for the objects in this image, using the JSON files we saved earlier.
 
-You will notice that it also returns the perceived detection difficulties of each of these objects, but these are not actually used in training the model. They are required only in the [Evaluation](https://github.com/sgrvinod/a-PyTorch-Tutorial-to-Object-Detection#evaluation) stage for computing the Mean Average Precision (mAP) metric. We also have the option of filtering out _difficult_ objects entirely from our data to speed up training at the cost of some accuracy.
+You will notice that it also returns the perceived detection difficulties of each of these objects, but these are not actually used in training the model. They are required only in the [Evaluation](https://github.com/bely66/Animal_Detection_SSD#evaluation) stage for computing the Mean Average Precision (mAP) metric. We also have the option of filtering out _difficult_ objects entirely from our data to speed up training at the cost of some accuracy.
 
 Additionally, inside this class, **each image and the objects in them are subject to a slew of transformations** as described in the paper and outlined below.
 
 #### Data Transforms
 
-See `transform()` in [`utils.py`](https://github.com/sgrvinod/a-PyTorch-Tutorial-to-Object-Detection/blob/master/utils.py).
+See `transform()` in [`utils.py`](https://github.com/bely66/Animal_Detection_SSD/blob/master/utils.py).
 
 This function applies the following transformations to the images and the objects in them –
 
@@ -726,7 +658,7 @@ Instead, we need to **pass a collating function to the `collate_fn` argument**, 
 
 ### Base Convolutions
 
-See `VGGBase` in [`model.py`](https://github.com/sgrvinod/a-PyTorch-Tutorial-to-Object-Detection/blob/master/model.py).
+See `VGGBase` in [`model.py`](https://github.com/bely66/Animal_Detection_SSD/blob/master/model.py).
 
 Here, we **create and apply base convolutions.**
 
@@ -736,7 +668,7 @@ We're especially interested in the lower-level feature maps that result from `co
 
 ### Auxiliary Convolutions
 
-See `AuxiliaryConvolutions` in [`model.py`](https://github.com/sgrvinod/a-PyTorch-Tutorial-to-Object-Detection/blob/master/model.py).
+See `AuxiliaryConvolutions` in [`model.py`](https://github.com/bely66/Animal_Detection_SSD/blob/master/model.py).
 
 Here, we **create and apply auxiliary convolutions.**
 
@@ -746,7 +678,7 @@ We're especially interested in the higher-level feature maps that result from `c
 
 ### Prediction Convolutions
 
-See `PredictionConvolutions` in [`model.py`](https://github.com/sgrvinod/a-PyTorch-Tutorial-to-Object-Detection/blob/master/model.py).
+See `PredictionConvolutions` in [`model.py`](https://github.com/bely66/Animal_Detection_SSD/blob/master/model.py).
 
 Here, we **create and apply localization and class prediction convolutions** to the feature maps from `conv4_3`, `conv7`, `conv8_2`, `conv9_2`, `conv10_2` and `conv11_2`.
 
@@ -758,7 +690,7 @@ As expected, the stacked localization and class predictions will be of dimension
 
 ### Putting it all together
 
-See `SSD300` in [`model.py`](https://github.com/sgrvinod/a-PyTorch-Tutorial-to-Object-Detection/blob/master/model.py).
+See `SSD300` in [`model.py`](https://github.com/bely66/Animal_Detection_SSD/blob/master/model.py).
 
 Here, the **base, auxiliary, and prediction convolutions are combined** to form the SSD.
 
@@ -766,7 +698,7 @@ There is a small detail here – the lowest level features, i.e. those from `con
 
 ### Priors
 
-See `create_prior_boxes()` under `SSD300` in [`model.py`](https://github.com/sgrvinod/a-PyTorch-Tutorial-to-Object-Detection/blob/master/model.py).
+See `create_prior_boxes()` under `SSD300` in [`model.py`](https://github.com/bely66/Animal_Detection_SSD/blob/master/model.py).
 
 This function **creates the priors in center-size coordinates** as defined for the feature maps from `conv4_3`, `conv7`, `conv8_2`, `conv9_2`, `conv10_2` and `conv11_2`, _in that order_. Furthermore, for each feature map, we create the priors at each tile by traversing it row-wise.
 
@@ -774,7 +706,7 @@ This ordering of the 8732 priors thus obtained is very important because it need
 
 ### Multibox Loss
 
-See `MultiBoxLoss` in [`model.py`](https://github.com/sgrvinod/a-PyTorch-Tutorial-to-Object-Detection/blob/master/model.py).
+See `MultiBoxLoss` in [`model.py`](https://github.com/bely66/Animal_Detection_SSD/blob/master/model.py).
 
 Two empty tensors are created to store localization and class prediction targets, i.e. _ground truths_, for the 8732 predicted boxes in each image.
 
@@ -794,9 +726,8 @@ The **Multibox Loss is the aggregate of these two losses**, combined in the rati
 
 # Training
 
-Before you begin, make sure to save the required data files for training and evaluation. To do this, run the contents of [`create_data_lists.py`](https://github.com/sgrvinod/a-PyTorch-Tutorial-to-Object-Detection/blob/master/create_data_lists.py) after pointing it to the `VOC2007` and `VOC2012` folders in your [downloaded data](https://github.com/sgrvinod/a-PyTorch-Tutorial-to-Object-Detection#download).
-
-See [`train.py`](https://github.com/sgrvinod/a-PyTorch-Tutorial-to-Object-Detection/blob/master/train.py).
+Before you begin, make sure to save the required data files for training and evaluation. To do this, run the contents of [`create_data_lists.py`](https://github.com/bely66/Animal_Detection_SSD/blob/master/create_data_lists.py) 
+See [`train.py`](https://github.com/bely66/Animal_Detection_SSD/blob/master/train.py).
 
 The parameters for the model (and training it) are at the beginning of the file, so you can easily check or modify them should you need to.
 
@@ -820,54 +751,25 @@ On a TitanX (Pascal), each epoch of training required about 6 minutes.
 
 ### Model checkpoint
 
-You can download this pretrained model [here](https://drive.google.com/open?id=1bvJfF6r_zYl2xZEpYXxgb7jLQHFZ01Qe).
 
-Note that this checkpoint should be [loaded directly with PyTorch](https://pytorch.org/docs/stable/torch.html?#torch.load) for evaluation or inference – see below.
 
 # Evaluation
 
-See [`eval.py`](https://github.com/sgrvinod/a-PyTorch-Tutorial-to-Object-Detection/blob/master/eval.py).
+See [`eval.py`](https://github.com/bely66/Animal_Detection_SSD/blob/master/eval.py).
 
 The data-loading and checkpoint parameters for evaluating the model are at the beginning of the file, so you can easily check or modify them should you wish to.
 
-To begin evaluation, simply run the `evaluate()` function with the data-loader and model checkpoint. **Raw predictions for each image in the test set are obtained and parsed** with the checkpoint's `detect_objects()` method, which implements [this process](https://github.com/sgrvinod/a-PyTorch-Tutorial-to-Object-Detection#processing-predictions). Evaluation has to be done at a `min_score` of `0.01`, an NMS `max_overlap` of `0.45`, and `top_k` of `200` to allow fair comparision of results with the paper and other implementations.
+To begin evaluation, simply run the `evaluate()` function with the data-loader and model checkpoint. **Raw predictions for each image in the test set are obtained and parsed** with the checkpoint's `detect_objects()` method, which implements [this process](https://github.com/bely66/Animal_Detection_SSD#processing-predictions). Evaluation has to be done at a `min_score` of `0.01`, an NMS `max_overlap` of `0.45`, and `top_k` of `200` to allow fair comparision of results with the paper and other implementations.
 
 **Parsed predictions are evaluated against the ground truth objects.** The evaluation metric is the _Mean Average Precision (mAP)_. If you're not familiar with this metric, [here's a great explanation](https://medium.com/@jonathan_hui/map-mean-average-precision-for-object-detection-45c121a31173).
 
-We will use `calculate_mAP()` in [`utils.py`](https://github.com/sgrvinod/a-PyTorch-Tutorial-to-Object-Detection/blob/master/utils.py) for this purpose. As is the norm, we will ignore _difficult_ detections in the mAP calculation. But nevertheless, it is important to include them from the evaluation dataset because if the model does detect an object that is considered to be _difficult_, it must not be counted as a false positive.
+We will use `calculate_mAP()` in [`utils.py`](https://github.com/bely66/Animal_Detection_SSD/blob/master/utils.py) for this purpose. As is the norm, we will ignore _difficult_ detections in the mAP calculation. But nevertheless, it is important to include them from the evaluation dataset because if the model does detect an object that is considered to be _difficult_, it must not be counted as a false positive.
 
-The model scores **77.2 mAP**, same as the result reported in the paper.
 
-Class-wise average precisions (not scaled to 100) are listed below.
-
-| Class | Average Precision |
-| :-----: | :------: |
-| _aeroplane_ | 0.7887580990791321 |
-| _bicycle_ | 0.8351995348930359 |
-| _bird_ | 0.7623348236083984 |
-| _boat_ | 0.7218425273895264 |
-| _bottle_ | 0.45978495478630066 |
-| _bus_ | 0.8705356121063232 |
-| _car_ | 0.8655831217765808 |
-| _cat_ | 0.8828985095024109 |
-| _chair_ | 0.5917483568191528 |
-| _cow_ | 0.8255912661552429 |
-| _diningtable_ | 0.756867527961731 |
-| _dog_ | 0.856262743473053 |
-| _horse_ | 0.8778411149978638 |
-| _motorbike_ | 0.8316892385482788 |
-| _person_ | 0.7884440422058105 |
-| _pottedplant_ | 0.5071538090705872 |
-| _sheep_ | 0.7936667799949646 |
-| _sofa_ | 0.7998116612434387 |
-| _train_ | 0.8655905723571777 |
-| _tvmonitor_ | 0.7492395043373108 |
-
-You can see that some objects, like bottles and potted plants, are considerably harder to detect than others.
 
 # Inference
 
-See [`detect.py`](https://github.com/sgrvinod/a-PyTorch-Tutorial-to-Object-Detection/blob/master/detect.py).
+See [`detect.py`](https://github.com/bely66/Animal_Detection_SSD/blob/master/detect.py).
 
 Point to the model you want to use for inference with the `checkpoint` parameter at the beginning of the code.
 
@@ -885,75 +787,6 @@ This function first **preprocesses the image by resizing and normalizing its RGB
 
 There are no one-size-fits-all values for `min_score`, `max_overlap`, and `top_k`. You may need to experiment a little to find what works best for your target data.
 
-### Some more examples
-
----
-
-<p align="center">
-<img src="./img/000029.jpg">
-</p>
-
----
-
-<p align="center">
-<img src="./img/000045.jpg">
-</p>
-
----
-
-<p align="center">
-<img src="./img/000062.jpg">
-</p>
-
----
-
-<p align="center">
-<img src="./img/000075.jpg">
-</p>
-
----
-
-<p align="center">
-<img src="./img/000085.jpg">
-</p>
-
----
-
-<p align="center">
-<img src="./img/000092.jpg">
-</p>
-
----
-
-<p align="center">
-<img src="./img/000100.jpg">
-</p>
-
----
-
-<p align="center">
-<img src="./img/000124.jpg">
-</p>
-
----
-
-<p align="center">
-<img src="./img/000127.jpg">
-</p>
-
----
-
-<p align="center">
-<img src="./img/000128.jpg">
-</p>
-
----
-
-<p align="center">
-<img src="./img/000145.jpg">
-</p>
-
----
 
 # FAQs
 
@@ -992,8 +825,4 @@ I suspect this is because object detection is open-ended enough that there's roo
 Redundant detections aren't really a problem since we're NMS-ing the hell out of 'em.
 
 
----
 
-__Sorry, but I gotta ask... _[what's in the boooox?!](https://cnet4.cbsistatic.com/img/cLD5YVGT9pFqx61TuMtcSBtDPyY=/570x0/2017/01/14/6d8103f7-a52d-46de-98d0-56d0e9d79804/se7en.png)___
-
-Ha.
