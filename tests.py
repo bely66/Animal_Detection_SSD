@@ -60,7 +60,7 @@ def create_data_lists(animal_path, output_folder):
             continue
         n_objects += len(objects)
         train_objects.append(objects)
-        train_images.append(os.path.join(img_path, file_name + '.jpg'))
+        train_images.append(os.path.join(img_path, file_name + '.JPG'))
 
     assert len(train_objects) == len(train_images)
 
