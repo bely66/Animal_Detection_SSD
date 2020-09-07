@@ -42,7 +42,7 @@ def create_data_lists(animal_path, output_folder):
     """
     animal_path = os.path.abspath(animal_path)
     animal_files = os.listdir(animal_path)
-    img_path = "./Boxing_KNPS_image/Images/001"
+    img_path = "Boxing_KNPS_image/Images/001"
     print(animal_files)
     train_images = list()
     train_objects = list()
