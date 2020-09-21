@@ -1,7 +1,7 @@
 import os
 import json
 
-voc_labels = ('waterdeer', 'wildpig', 'roedeer')
+voc_labels = ('waterdeer', 'wildpig', 'roedeer', 'Wild')
 label_map = {k: v + 1 for v, k in enumerate(voc_labels)}
 label_map['background'] = 0
 rev_label_map = {v: k for k, v in label_map.items()}  # Inverse mapping
@@ -42,8 +42,7 @@ def create_data_lists(animal_path, output_folder):
     """
     animal_path = os.path.abspath(animal_path)
     animal_files = os.listdir(animal_path)
-    img_path = "Boxing_KNPS_image/Images/001"
-    print(animal_files)
+    img_path = "Boxing_KNPS_image/KNPS_Captures"
     train_images = list()
     train_objects = list()
     n_objects = 0

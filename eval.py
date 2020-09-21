@@ -24,7 +24,7 @@ model.eval()
 
 # Load test data
 test_dataset = PascalVOCDataset(data_folder,
-                                split='test',
+                                split='train',
                                 keep_difficult=keep_difficult)
 test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=batch_size, shuffle=False,
                                           collate_fn=test_dataset.collate_fn, num_workers=workers, pin_memory=True)

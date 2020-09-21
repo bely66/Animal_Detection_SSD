@@ -8,13 +8,13 @@ import torchvision.transforms.functional as FT
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # Label map
-voc_labels = ('waterdeer', 'wildpig', 'roedeer')
+voc_labels = ('waterdeer', 'wildpig', 'roedeer', 'Wild')
 label_map = {k: v + 1 for v, k in enumerate(voc_labels)}
 label_map['background'] = 0
 rev_label_map = {v: k for k, v in label_map.items()}  # Inverse mapping
 
 # Color map for bounding boxes of detected objects from https://sashat.me/2017/01/11/list-of-20-simple-distinct-colors/
-distinct_colors = ['#e6194b', '#3cb44b', '#ffe119', '#0082c8']
+distinct_colors = ['#e6194b', '#3cb44b', '#ffe119', '#0082c8', '#f082c8']
 label_color_map = {k: distinct_colors[i] for i, k in enumerate(label_map.keys())}
 
 
@@ -56,7 +56,7 @@ def create_data_lists(animal_path, output_folder):
     """
     animal_path = os.path.abspath(animal_path)
     animal_files = os.listdir(animal_path)
-    img_path = "Boxing_KNPS_image/Images/001"
+    img_path = "Boxing_KNPS_image/KNPS_Captures"
 
     train_images = list()
     train_objects = list()
