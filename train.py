@@ -4,6 +4,7 @@ import torch.optim
 import torch.utils.data
 from model import SSD300, MultiBoxLoss
 from datasets import PascalVOCDataset
+import matplotlib.pyplot as plt
 from utils import *
 
 # Data parameters
@@ -75,11 +76,13 @@ def main():
     # Calculate total number of epochs to train and the epochs to decay learning rate at (i.e. convert iterations to epochs)
     # To convert iterations to epochs, divide iterations by the number of iterations per epoch
     # The paper trains for 120,000 iterations with a batch size of 32, decays after 80,000 and 100,000 iterations
-    epochs = iterations // (len(train_dataset) // 32)
+    #epochs = iterations // (len(train_dataset) // 32)
+    epochs = 20
     decay_lr_at = [it // (len(train_dataset) // 32) for it in decay_lr_at]
-
+    # losses 
+    loss_epoch = []
     # Epochs
-    for epoch in range(start_epoch, epochs):
+    for epoch in range(start_epoch, 20):
 
         # Decay learning rate at particular epochs
         if epoch in decay_lr_at:
@@ -90,13 +93,16 @@ def main():
               model=model,
               criterion=criterion,
               optimizer=optimizer,
-              epoch=epoch)
+              epoch=epoch,
+              loss_list=loss_epoch)
 
         # Save checkpoint
         save_checkpoint(epoch, model, optimizer)
+    plt.plot(loss_epoch)
+    plt.show()
 
 
-def train(train_loader, model, criterion, optimizer, epoch):
+def train(train_loader, model, criterion, optimizer, epoch, loss_list=[]):
     """
     One epoch's training.
 
@@ -142,7 +148,7 @@ def train(train_loader, model, criterion, optimizer, epoch):
 
         losses.update(loss.item(), images.size(0))
         batch_time.update(time.time() - start)
-
+        loss_list.append(loss.item())
         start = time.time()
 
         # Print status
