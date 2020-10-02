@@ -18,6 +18,8 @@ def parse_annotation(annotation_path):
         difficult = False
         data = object.split()
         label = data[-1]
+        label = "Wild" if label == "wildpig" else label
+        label = "roedeer" if label == "waterdeer" else label 
         if label not in label_map:
             continue
 
