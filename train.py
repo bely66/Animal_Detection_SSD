@@ -82,7 +82,7 @@ def main():
     # losses 
     loss_epoch = []
     # Epochs
-    for epoch in range(start_epoch, 20):
+    for epoch in range(start_epoch, 50):
 
         # Decay learning rate at particular epochs
         if epoch in decay_lr_at:
