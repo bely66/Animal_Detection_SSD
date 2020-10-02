@@ -77,7 +77,7 @@ def main():
     # To convert iterations to epochs, divide iterations by the number of iterations per epoch
     # The paper trains for 120,000 iterations with a batch size of 32, decays after 80,000 and 100,000 iterations
     #epochs = iterations // (len(train_dataset) // 32)
-    epochs = 20
+    epochs = 50
     decay_lr_at = [it // (len(train_dataset) // 32) for it in decay_lr_at]
     # losses 
     loss_epoch = []
@@ -98,7 +98,9 @@ def main():
 
         # Save checkpoint
         save_checkpoint(epoch, model, optimizer)
+    print(loss_epoch)
     plt.plot(loss_epoch)
+    plt.savefig("loss.png")
     plt.show()
 
 
