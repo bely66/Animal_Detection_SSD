@@ -81,8 +81,8 @@ def create_data_lists(animal_path, test_path, output_folder):
     animal_files = os.listdir(test_path)
     img_path = "Boxing_KNPS_image/Testing/Picture"
 
-    train_images = list()
-    train_objects = list()
+    test_images = list()
+    test_objects = list()
     n_objects = 0
 
     # Training data
@@ -96,17 +96,17 @@ def create_data_lists(animal_path, test_path, output_folder):
         if len(objects['boxes']) == 0:
             continue
         n_objects += len(objects)
-        train_objects.append(objects)
-        train_images.append(os.path.join(img_path, file_name + '.JPG'))
+        test_objects.append(objects)
+        test_images.append(os.path.join(img_path, file_name + '.JPG'))
 
-    assert len(train_objects) == len(train_images)
+    assert len(test_objects) == len(test_images)
 
     # Save to file
     with open(os.path.join(output_folder, 'TEST_images.json'), 'w') as j:
         json.dump(train_images, j)
     with open(os.path.join(output_folder, 'TEST_objects.json'), 'w') as j:
         json.dump(train_objects, j)
-    print('\nThere are %d training images containing a total of %d objects. Files have been saved to %s.' % (
+    print('\nThere are %d testing images containing a total of %d objects. Files have been saved to %s.' % (
         len(train_images), n_objects, os.path.abspath(output_folder)))
 
 create_data_lists("Boxing_KNPS_image/Labels/", "Boxing_KNPS_image/Testing/Labels", "./")
