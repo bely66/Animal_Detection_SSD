@@ -103,10 +103,10 @@ def create_data_lists(animal_path, test_path, output_folder):
 
     # Save to file
     with open(os.path.join(output_folder, 'TEST_images.json'), 'w') as j:
-        json.dump(train_images, j)
+        json.dump(test_images, j)
     with open(os.path.join(output_folder, 'TEST_objects.json'), 'w') as j:
-        json.dump(train_objects, j)
+        json.dump(test_objects, j)
     print('\nThere are %d testing images containing a total of %d objects. Files have been saved to %s.' % (
-        len(train_images), n_objects, os.path.abspath(output_folder)))
+        len(test_images), n_objects, os.path.abspath(output_folder)))
 
 create_data_lists("Boxing_KNPS_image/Labels/", "Boxing_KNPS_image/Testing/Labels", "./")
