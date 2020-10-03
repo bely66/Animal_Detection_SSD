@@ -47,11 +47,12 @@ def parse_annotation(annotation_path):
     return {'boxes': boxes, 'labels': labels, 'difficulties': difficulties}
 
 
-def create_data_lists(animal_path, output_folder):
+def create_data_lists(animal_path, test_path, output_folder):
     """
     Create lists of images, the bounding boxes and labels of the objects in these images, and save these to file.
 
     :param animal_path: path to the 'Images' folder
+    :param test_path: path to the 'Images' folder
     :param output_folder: folder where the JSONs must be saved
     """
     animal_path = os.path.abspath(animal_path)
@@ -88,7 +89,37 @@ def create_data_lists(animal_path, output_folder):
 
     print('\nThere are %d training images containing a total of %d objects. Files have been saved to %s.' % (
         len(train_images), n_objects, os.path.abspath(output_folder)))
+    animal_path = os.path.abspath(test_path)
+    animal_files = os.listdir(animal_path)
+    img_path = "Boxing_KNPS_image/Testing/Picture"
 
+    train_images = list()
+    train_objects = list()
+    n_objects = 0
+
+    # Training data
+    for path in animal_files:
+        txt_file = os.path.join(animal_path, path)
+        # Find IDs of images in training data
+        
+        file_name = path.split(".txt")[0]
+        
+        objects = parse_annotation(txt_file)
+        if len(objects['boxes']) == 0:
+            continue
+        n_objects += len(objects)
+        train_objects.append(objects)
+        train_images.append(os.path.join(img_path, file_name + '.JPG'))
+
+    assert len(train_objects) == len(train_images)
+
+    # Save to file
+    with open(os.path.join(output_folder, 'TEST_images.json'), 'w') as j:
+        json.dump(train_images, j)
+    with open(os.path.join(output_folder, 'TEST_objects.json'), 'w') as j:
+        json.dump(train_objects, j)
+    print('\nThere are %d training images containing a total of %d objects. Files have been saved to %s.' % (
+        len(train_images), n_objects, os.path.abspath(output_folder)))
     """# Test data
     test_images = list()
     test_objects = list()
