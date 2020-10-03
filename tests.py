@@ -77,8 +77,8 @@ def create_data_lists(animal_path, test_path, output_folder):
 
     print('\nThere are %d training images containing a total of %d objects. Files have been saved to %s.' % (
         len(train_images), n_objects, os.path.abspath(output_folder)))
-    animal_path = os.path.abspath(test_path)
-    animal_files = os.listdir(animal_path)
+    test_path = os.path.abspath(test_path)
+    animal_files = os.listdir(test_path)
     img_path = "Boxing_KNPS_image/Testing/Picture"
 
     train_images = list()
@@ -87,7 +87,7 @@ def create_data_lists(animal_path, test_path, output_folder):
 
     # Training data
     for path in animal_files:
-        txt_file = os.path.join(animal_path, path)
+        txt_file = os.path.join(test_path, path)
         # Find IDs of images in training data
         
         file_name = path.split(".txt")[0]
