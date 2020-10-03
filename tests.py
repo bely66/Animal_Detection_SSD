@@ -97,7 +97,11 @@ def create_data_lists(animal_path, test_path, output_folder):
             continue
         n_objects += len(objects)
         test_objects.append(objects)
-        test_images.append(os.path.join(img_path, file_name + '.JPG'))
+        path = os.path.join(img_path, file_name + '.JPG')
+        if os.path.isfile(path):
+            test_images.append(path)
+        else:
+            test_objects.pop()
 
     assert len(test_objects) == len(test_images)
 
