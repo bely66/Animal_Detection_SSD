@@ -70,7 +70,7 @@ def main():
                                      split='train',
                                      keep_difficult=keep_difficult)
     train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size, shuffle=True,
-                                               collate_fn=train_dataset.collate_fn, num_workers=workers,
+                                               collate_fn=train_dataset.collate_fn, num_workers=0,
                                                pin_memory=True)  # note that we're passing the collate function here
 
     # Calculate total number of epochs to train and the epochs to decay learning rate at (i.e. convert iterations to epochs)
