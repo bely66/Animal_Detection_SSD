@@ -6,7 +6,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # Load model checkpoint
 checkpoint = 'checkpoint_ssd300.pth.tar'
-checkpoint = torch.load(checkpoint)
+checkpoint = torch.load(checkpoint, map_location=device)
 start_epoch = checkpoint['epoch'] + 1
 print('\nLoaded checkpoint from epoch %d.\n' % start_epoch)
 model = checkpoint['model']
@@ -46,16 +46,21 @@ def detect(original_image, min_score, max_overlap, top_k, suppress=None):
                                                              max_overlap=max_overlap, top_k=top_k)
 
     # Move detections to the CPU
-    det_boxes = det_boxes[0].to('cpu')
+    if torch.cuda.is_available():
+        det_boxes = det_boxes[0].to('cpu')
+    else:
+        det_boxes = det_boxes[0]
 
     # Transform to original image dimensions
     original_dims = torch.FloatTensor(
         [original_image.width, original_image.height, original_image.width, original_image.height]).unsqueeze(0)
     det_boxes = det_boxes * original_dims
-
+    print(det_labels)
     # Decode class integer labels
-    det_labels = [rev_label_map[l] for l in det_labels[0].to('cpu').tolist()]
-
+    if torch.cuda.is_available():
+        det_labels = [rev_label_map[l] for l in det_labels[0].to('cpu').tolist()]
+    else:
+        det_labels = [rev_label_map[l] for l in det_labels[0].tolist()]
     # If no objects found, the detected labels will be set to ['0.'], i.e. ['background'] in SSD300.detect_objects() in model.py
     if det_labels == ['background']:
         # Just return original image
@@ -96,7 +101,15 @@ def detect(original_image, min_score, max_overlap, top_k, suppress=None):
 
 
 if __name__ == '__main__':
-    img_path = 'Boxing_KNPS_image/Images/001/소북_생태통로_001_고라니_20191222_0922(waterdeer).JPG'
-    original_image = Image.open(img_path, mode='r')
-    original_image = original_image.convert('RGB')
-    detect(original_image, min_score=0.2, max_overlap=0.5, top_k=200).save("output1.jpg")
+    eval_path = input("Enter the image directory")
+    if eval_path == "":
+        eval_path = "./"
+    
+    for img_path in os.listdir(eval_path):
+        if (img_path.find(".jpg")==-1) and (img_path.find(".png")==-1):
+            continue
+        print(img_path)
+        original_image = Image.open(img_path, mode='r')
+        original_image = original_image.convert('RGB')
+        img_name = img_path.split(".")[0]
+        detect(original_image, min_score=0.2, max_overlap=0.5, top_k=200).save("output/"+img_name+"_"+"output1.jpg")
